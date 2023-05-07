@@ -21,7 +21,7 @@ const Navbar = () => {
           <a onClick={() => navigate('/community')}>Community</a>
         </p>
         <p>
-          <a onClick={() => navigate('/shop')}>Shop</a>
+          <a onClick={() => navigate('/shelves')}>My Shelves</a>
         </p>
         <p>
           <a onClick={() => navigate('/about')}>About us</a>

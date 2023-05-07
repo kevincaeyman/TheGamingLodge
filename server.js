@@ -6,8 +6,8 @@ const app = express();
 app.use(express.json());
 
 app.get('/api/games', async (req, res) => {
-  const API_KEY = 'df9217646fc62c2ed3652ba455133f26eec84109';
-  const API_URL = `https://www.giantbomb.com/api/games/?api_key=${API_KEY}&format=json`;
+  const API_KEY = '659e6634546b40f1aa9371bd8ab9e73e';
+  const API_URL = `https://api.rawg.io/api/games?key=${API_KEY}&page_size=40&ordering=random&dates=1990-01-01,${new Date().toISOString().slice(0, 10)}`;
 
   try {
     const response = await axios.get(API_URL);

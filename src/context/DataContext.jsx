@@ -1,8 +1,8 @@
 import { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
 
-const apiKey = 'df9217646fc62c2ed3652ba455133f26eec84109';
-const baseUrl = `https://www.giantbomb.com/api`;
+const apiKey = '659e6634546b40f1aa9371bd8ab9e73e';
+const baseUrl = `https://api.rawg.io/api/games`;
 
 // Define the initial state for the context
 const initialState = {
@@ -12,12 +12,12 @@ const initialState = {
 };
 
 // Create a new context object
-export const GiantBombContext = createContext(initialState);
+export const RawgContext = createContext(initialState);
 
 // Define a function that fetches data from the API and updates the state
 const fetchData = async (url, setState) => {
   try {
-    const response = await axios.get(`${baseUrl}${url}&api_key=${apiKey}&format=json`);
+    const response = await axios.get(`${baseUrl}${url}&key=${apiKey}`);
     setState({ loading: false, error: null, data: response.data.results });
   } catch (error) {
     setState({ loading: false, error: error.message, data: [] });
@@ -25,16 +25,16 @@ const fetchData = async (url, setState) => {
 };
 
 // Define a component that will provide the context
-export const GiantBombProvider = ({ children }) => {
+export const RawgProvider = ({ children }) => {
   const [state, setState] = useState(initialState);
 
   useEffect(() => {
-    fetchData('/games/?limit=10', setState);
+    fetchData('/games?dates=2019-09-01,2019-09-30&platforms=18,1,7', setState);
   }, []);
 
   return (
-    <GiantBombContext.Provider value={state}>
+    <RawgContext.Provider value={state}>
       {children}
-    </GiantBombContext.Provider>
+    </RawgContext.Provider>
   );
 };

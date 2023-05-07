@@ -87,8 +87,82 @@ a:hover:after {
   top: 50%;
   transform: translateY(-50%);
 }
-.gameImage{
+.discoverContent {
+  color: #eee9da;
+  padding-top: 10px;
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.discoverContent h1 {
+  font-size: 36px;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.gameInfo {
+  display: flex;
+  flex-flow: row wrap;
+  max-width: 1200px;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.gameInfo > div {
+  position: relative;
+  background-color: #222;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  height: 350px;
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+}
+
+.gameInfo > div:last-child {
+  margin-right: 0;
+}
+
+.gameInfo > div:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+.gameInfo img {
+  flex-grow: 1;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.gameInfo p {
+  margin: 0;
+  padding: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  color: rgb(238, 233, 218);
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  background-color: rgb(96, 150, 180, 0.8);
+  z-index: 1;
+}
+.buttons {
+  margin-right: 20px;
+  margin-bottom: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
   border: none;
-  border-radius: 16px;
-  max-width: 20%;
+  border-radius: 20px;
+  background-color: #eee9da;
+  color: #6096b4;
+  cursor: pointer;
 }
