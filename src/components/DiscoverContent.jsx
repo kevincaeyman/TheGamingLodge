@@ -116,6 +116,7 @@ const DiscoverContent = () => {
           <div key={game.id}>
             <p>{game?.name}</p>
             <img src={game?.background_image} className="gameImage" />
+            
           </div>
         ))}
       </div>

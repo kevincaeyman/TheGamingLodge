@@ -10,15 +10,13 @@ const Navbar = () => {
       <div className="navbarLogo">
         <img src={GamingLodge} alt="logo" />
       </div>
+      
       <div className="navbarText">
         <p>
           <a onClick={() => navigate('/')} >Home</a>
         </p>
         <p>
           <a onClick={() => navigate('/discover')}>Discover</a>
-        </p>
-        <p>
-          <a onClick={() => navigate('/community')}>Community</a>
         </p>
         <p>
           <a onClick={() => navigate('/shelves')}>My Shelves</a>
