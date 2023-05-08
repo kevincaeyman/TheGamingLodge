@@ -2,14 +2,31 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const DiscoverContent = () => {
+  // State variables for games, current view, platform filter, and platforms
   const [games, setGames] = useState([]);
   const [currentView, setCurrentView] = useState("discover");
   const [platformFilter, setPlatformFilter] = useState(null);
   const [platforms, setPlatforms] = useState([]);
-  const today = new Date().toISOString().slice(0, 10);
-  const forbiddenWords = ["girls", "waifu", "sex"];
+  const [refreshRandom, setRefreshRandom] = useState(false);
 
+  // Get today's date in ISO format to filter games by release date
+  const today = new Date().toISOString().slice(0, 10);
+
+  // List of forbidden words to filter games by title
+  const forbiddenWords = [
+    "girls",
+    "waifu",
+    "sex",
+    "sexy",
+    "grown-up",
+    "trainer",
+    "fan",
+    "fnaf",
+  ];
+
+  // Fetch games from API when current view or platform filter changes
   useEffect(() => {
+    // Construct the API URL based on the current view and platform filter
     let apiUrl =
       "https://api.rawg.io/api/games?key=659e6634546b40f1aa9371bd8ab9e73e&page_size=40&parent_platforms=1&dates=1900-01-01&publisher=-8471" +
       today;
@@ -21,11 +38,11 @@ const DiscoverContent = () => {
     } else if (currentView === "platformFilter" && platformFilter) {
       apiUrl += `&platforms=${platformFilter}&ordering=-released`;
     } else if (currentView === "randomGame") {
-      apiUrl += `&ordering=random&page=${Math.floor(
-        Math.random() * 100
-      )}&search=`;
+      const randomPage = Math.floor(Math.random() * 100);
+      apiUrl += `&page=${randomPage}&ordering=-released`;
     }
 
+    // Fetch games from API and filter them by title
     axios
       .get(apiUrl)
       .then((response) => {
@@ -47,8 +64,9 @@ const DiscoverContent = () => {
       .catch((error) => {
         console.error(error);
       });
-  }, [currentView, platformFilter]);
+  }, [currentView, platformFilter, refreshRandom]);
 
+  // Fetch platforms from API when component mounts
   useEffect(() => {
     axios
       .get(
@@ -62,64 +80,69 @@ const DiscoverContent = () => {
       });
   }, []);
 
+  // Handle platform filter change and set current view accordingly
   const handlePlatformChange = (event) => {
     setPlatformFilter(event.target.value);
     setCurrentView("platformFilter");
   };
 
-  return (
-    <div className="discoverContent">
-      <h1>Discover</h1>
+// Render the discover content
+return (
+<div className="discoverContent">
+{/* Heading */}
+<h1>Discover</h1>
+
+      {/* Buttons for different views */}
       <div className="discoverButtons">
+        {/* Button to show popular games */}
         <button className="buttons" onClick={() => setCurrentView("topRated")}>
           Popular games
         </button>
+
+        {/* Button to show new releases */}
         <button
           className="buttons"
           onClick={() => setCurrentView("newReleases")}
         >
           New releases
         </button>
-        <button
+
+        {/* Button to show platform filter */}
+        <select
+          value={platformFilter || ""}
+          onChange={handlePlatformChange}
           className="buttons"
-          onClick={() => setCurrentView("platformFilter")}
         >
-          Filter by platform
-        </button>
+          <option value="">Filter by platform</option>
+          {platforms.map((platform) => (
+            <option key={platform.id} value={platform.id}>
+              {platform.name}
+            </option>
+          ))}
+        </select>
+
+        {/* Button to show a random game */}
         <button
           className="buttons"
           onClick={() => setCurrentView("randomGame")}
         >
-          Wondering what to play?
+          Random Game
         </button>
-        {currentView === "platformFilter" && (
-          <div className="platformFilter">
-            <select
-              value={platformFilter || ""}
-              onChange={handlePlatformChange}
-              className="buttons"
-            >
-              <option value="">All platforms</option>
-              <option value="4">PC</option>
-              <option value="18">PlayStation 4</option>
-              <option value="187">PlayStation 5</option>
-              <option value="1">Xbox One</option>
-              <option value="186">Xbox Series X/S</option>
-              <option value="7">Nintendo Switch</option>
-              <option value="8">Nintendo 3DS</option>
-            </select>
-          </div>
-        )}
       </div>
-      <div className="gameInfo">
+
+      {/* Display game information */}
+      <ul className="gameInfo">
+        {/* Map over the games array and display game information */}
         {games.map((game) => (
           <div key={game.id}>
+            {/* Show game name */}
             <p>{game?.name}</p>
+
+            {/* Show game image */}
             <img src={game?.background_image} className="gameImage" />
-            
           </div>
         ))}
-      </div>
+      </ul>
     </div>
   );
 };
