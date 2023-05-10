@@ -22,9 +22,9 @@
 
 ## **Create a wireframe:**
 
-&#x2610; Sketch out a rough layout of the website's pages and features.
+&#9745; Sketch out a rough layout of the website's pages and features.
 
-&#x2610; Include all necessary components, such as a header, footer, and navigation menu.
+&#9745; Include all necessary components, such as a header, footer, and navigation menu.
 
 ## **Develop the website's architecture:**
 
