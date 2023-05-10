@@ -1,16 +1,50 @@
-import React from "react";
+import React, { useState } from "react";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 const LoginContent = () => {
-  return (
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-    <div className="loginBox">
+  const signIn = (e) => {
+    e.preventDefault();
+    const auth = getAuth();
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        console.log(userCredential);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  return (
+    <form className="loginBox" onSubmit={signIn}>
       <h1>Welcome back!</h1>
       <p>Please login to access your profile</p>
-      <input type="email" placeholder="Email" className="input"/>
-      <input type="password" placeholder="Password" className="input"/>
-      <button className="loginButton">Login</button>
-      <small>Don't have an account yet? <a onClick={() => navigate("/signup")} className='loginLink'>Creat one now, it's free!</a></small>
-    </div>
+      <input
+        type="email"
+        placeholder="Email"
+        className="input"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <input
+        type="password"
+        placeholder="Password"
+        className="input"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      <button type="submit" className="loginButton">
+        Login
+      </button>
+      <small>
+        Don't have an account yet?{" "}
+        <a onClick={() => navigate("/signup")} className="loginLink">
+          Create one now, it's free!
+        </a>
+      </small>
+    </form>
   );
 };
 
