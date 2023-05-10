@@ -1,10 +1,36 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import GamingLodge from "../assets/GamingLodge.svg";
+import { auth } from "../firebase";
 
 const Navbar = () => {
-  // useNavigate hook allows you to navigate programmatically between different routes
   const navigate = useNavigate();
+  const [authUser, setAuthUser] = useState(null);
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        setAuthUser(user);
+      } else {
+        setAuthUser(null);
+      }
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
+  const handleLogout = () => {
+    auth
+      .signOut()
+      .then(() => {
+        // Logout successful, do something if needed
+      })
+      .catch((error) => {
+        // Handle logout error
+      });
+  };
 
   return (
     <div className="navbar">
@@ -32,9 +58,12 @@ const Navbar = () => {
       </div>
 
       <div className="navbarButtons">
-        {/* These buttons will eventually link to the login and sign up pages */}
-        <button onClick={() => navigate("/signup")}>Sign up</button>
-        <button onClick={() => navigate("/login")}>Log in</button>
+        {authUser && (
+          <>
+            <p>{`Signed in as ${authUser.email}`}</p>
+            <button onClick={handleLogout}>Sign out</button>
+          </>
+        )}
       </div>
     </div>
   );

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { auth } from "../firebase";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 const LoginContent = () => {
@@ -7,7 +8,7 @@ const LoginContent = () => {
 
   const signIn = (e) => {
     e.preventDefault();
-    const auth = getAuth();
+
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         console.log(userCredential);
