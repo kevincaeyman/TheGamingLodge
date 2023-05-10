@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import { auth } from "../firebase";
+import React, { useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../firebase";
 
-const AuthDetails = ({ handleLogout, showDetails }) => {
+const AuthDetails = ({ handleLogout }) => {
   const [authUser, setAuthUser] = useState(null);
 
   useEffect(() => {
@@ -19,16 +19,16 @@ const AuthDetails = ({ handleLogout, showDetails }) => {
     };
   }, []);
 
-  return (
-    <div>
-      {showDetails && authUser && (
-        <>
-          <p>{`Signed in as ${authUser.email}`}</p>
-          <button onClick={handleLogout}>Sign out</button>
-        </>
-      )}
-    </div>
-  );
+  if (authUser) {
+    return (
+      <div>
+        <p>{`Signed in as ${authUser.email}`}</p>
+        <button onClick={handleLogout}>Sign out</button>
+      </div>
+    );
+  } else {
+    return null;
+  }
 };
 
 export default AuthDetails;

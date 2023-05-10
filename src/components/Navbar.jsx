@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import GamingLodge from "../assets/GamingLodge.svg";
+import AuthDetails from "./AuthDetails";
 import { auth } from "../firebase";
 
 const Navbar = () => {
@@ -58,10 +59,12 @@ const Navbar = () => {
       </div>
 
       <div className="navbarButtons">
-        {authUser && (
+        {authUser ? (
+          <AuthDetails authUser={authUser} handleLogout={handleLogout} />
+        ) : (
           <>
-            <p>{`Signed in as ${authUser.email}`}</p>
-            <button onClick={handleLogout}>Sign out</button>
+            <button onClick={() => navigate("/signup")}>Sign up</button>
+            <button onClick={() => navigate("/login")}>Log in</button>
           </>
         )}
       </div>
