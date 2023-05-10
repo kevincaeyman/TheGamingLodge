@@ -39,12 +39,12 @@ body {
   cursor: pointer;
 }
 
-a {
+.navbarText a {
   display: inline-block;
   position: relative;
 }
 
-a:after {
+.navbarText a:after {
   background: none repeat scroll 0 0 transparent;
   bottom: 0;
   content: "";
@@ -74,6 +74,7 @@ a:hover:after {
   border-radius: 20px;
   background-color: #6096b4;
   color: #eee9da;
+  cursor: pointer;
 }
 
 /* Home page */
@@ -170,4 +171,83 @@ a:hover:after {
   background-color: #eee9da;
   color: #6096b4;
   cursor: pointer;
+}
+.shelvesContent{
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+  color: #eee9da;
+  padding-top: 10px;
+}
+.slider{
+  padding-top: 20px;
+  max-width: 70%;
+}
+.sliderImage{
+  max-width: 100%;
+}
+.aboutContent{
+  display: flex;
+  flex-flow: column;
+  max-width: 60%;
+  color: #eee9da;
+  padding-top: 40px;
+  margin-left: 20px;
+}
+.contactContent{
+  display: flex;
+  flex-flow: column;
+  max-width: 60%;
+  color: #eee9da;
+  padding-top: 40px;
+  margin-left: 20px;
+}
+.loginBox {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #6096b4;
+  background-color: #eee9da;
+  width: fit-content;
+  height: 50vh;
+  margin: auto;
+  margin-top: 40px;
+  padding-left: 20px;
+  padding-bottom: 20px;
+  padding-right: 20px;
+  border-radius: 20px;
+}
+.loginBox small {
+  margin-top: 20px;
+}
+.input{
+  border: none;
+  margin-top: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  width: 90%;
+  border-radius: 8px;
+  border: 0.5px solid;
+  border-color: #6096b4;
+}
+::placeholder{
+  color: #6096b4;
+  padding-left: 10px;
+}
+.loginButton{
+  color: #eee9da;
+  background-color: #6096b4;
+  border-radius: 15px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-top: 20px;
+  border: none;
+}
+.loginLink{
+  cursor: pointer;
+  text-decoration: underline;
 }

@@ -33,8 +33,8 @@ const Navbar = () => {
 
       <div className="navbarButtons">
         {/* These buttons will eventually link to the login and sign up pages */}
-        <button>Sign up</button>
-        <button>Log in</button>
+        <button onClick={() => navigate("/signup")}>Sign up</button>
+        <button onClick={() => navigate("/login")}>Log in</button>
       </div>
     </div>
   );

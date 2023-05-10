@@ -22,24 +22,30 @@ const DiscoverContent = () => {
     "trainer",
     "fan",
     "fnaf",
+    "girl",
+    "nurse",
+    "furry",
+    "dick",
+    "ass",
+    "pussy",
+    "stripper",
+    "kinect"
   ];
 
   // Fetch games from API when current view or platform filter changes
   useEffect(() => {
     // Construct the API URL based on the current view and platform filter
-    let apiUrl =
-      "https://api.rawg.io/api/games?key=659e6634546b40f1aa9371bd8ab9e73e&page_size=40&parent_platforms=1&dates=1900-01-01&publisher=-8471" +
-      today;
+    let apiUrl = "https://api.rawg.io/api/games?key=659e6634546b40f1aa9371bd8ab9e73e&ordering=-released&platforms=18,14,80,27,6";
 
     if (currentView === "topRated") {
       apiUrl += "&ordering=-rating";
     } else if (currentView === "newReleases") {
-      apiUrl += "&dates=2022-04-30,2023-05-06&ordering=-released";
+      apiUrl += `&dates=2022-04-30,${today}&ordering=-released`;
     } else if (currentView === "platformFilter" && platformFilter) {
       apiUrl += `&platforms=${platformFilter}&ordering=-released`;
     } else if (currentView === "randomGame") {
       const randomPage = Math.floor(Math.random() * 100);
-      apiUrl += `&page=${randomPage}&ordering=-released`;
+      apiUrl += `&page=${randomPage}`;
     }
 
     // Fetch games from API and filter them by title
@@ -59,12 +65,17 @@ const DiscoverContent = () => {
           }
           return true;
         });
+        if (currentView === "randomGame") {
+          const randomIndex = Math.floor(Math.random() * gameResults.length);
+          gameResults = [gameResults[randomIndex]];
+        }
         setGames(gameResults);
       })
       .catch((error) => {
         console.error(error);
       });
   }, [currentView, platformFilter, refreshRandom]);
+
 
   // Fetch platforms from API when component mounts
   useEffect(() => {

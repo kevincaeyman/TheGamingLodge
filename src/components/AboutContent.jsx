@@ -1,7 +1,7 @@
 import React from "react";
 
 // AboutContent functional component
-export const AboutContent = () => {
+const AboutContent = () => {
   // returns JSX to render
   return (
     <div className="aboutContent">
@@ -31,3 +31,4 @@ export const AboutContent = () => {
     </div>
   );
 };
+export default AboutContent

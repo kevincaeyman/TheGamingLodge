@@ -7,6 +7,8 @@ import Community from "./pages/Community"
 import Shelves from "./pages/Shelves"
 import About from "./pages/About"
 import Contact from "./pages/Contact"
+import SignUp from "./pages/SignUp";
+import Login from "./pages/Login";
 
 function App() {
   return (
@@ -19,6 +21,9 @@ function App() {
         <Route path="/shelves" element={<Shelves />} /> // Defining the route for the Shelves page
         <Route path="/about" element={<About />} /> // Defining the route for the About page
         <Route path="/contact" element={<Contact />} /> // Defining the route for the Contact page
+        <Route path="/signup" element={<SignUp />} /> / Defining the route for the SignUp page
+        <Route path="/login" element={<Login />} /> / Defining the route for the Login page
+
       </Routes>
     </div>
   );
