@@ -1,9 +1,10 @@
 import React from "react";
+import { ApiProvider } from "./context/ApiContext";
 import { Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import AuthDetails from "./components/AuthDetails";
 import Home from "./pages/Home";
-import Discover from "./pages/Discover";
+import Games from "./pages/Games";
 import Community from "./pages/Community";
 import Shelves from "./pages/Shelves";
 import About from "./pages/About";
@@ -25,12 +26,12 @@ function App() {
   };
 
   return (
-    <div>
+    <ApiProvider>
       <Navbar />
       <AuthDetails handleLogout={handleLogout} />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/discover" element={<Discover />} />
+        <Route path="/games" element={<Games />} />
         <Route path="/community" element={<Community />} />
         <Route path="/shelves" element={<Shelves />} />
         <Route path="/about" element={<About />} />
@@ -38,7 +39,7 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
       </Routes>
-    </div>
+    </ApiProvider>
   );
 }
 

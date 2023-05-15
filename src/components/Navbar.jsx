@@ -45,7 +45,7 @@ const Navbar = () => {
           <a onClick={() => navigate("/")}>Home</a>
         </p>
         <p>
-          <a onClick={() => navigate("/discover")}>Discover</a>
+          <a onClick={() => navigate("/games")}>Games</a>
         </p>
         <p>
           <a onClick={() => navigate("/shelves")}>My Shelves</a>

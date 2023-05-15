@@ -109,7 +109,7 @@ a:hover:after {
 }
 
 
-.discoverContent {
+.gamesContent {
   color: #eee9da;
   padding-top: 10px;
   display: flex;
@@ -118,8 +118,8 @@ a:hover:after {
   justify-content: center;
 }
 
-/* Discover Page */
-.discoverContent h1 {
+/* Games Page */
+.gamesContent h1 {
   font-size: 36px;
   text-align: center;
 }
