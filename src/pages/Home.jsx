@@ -1,8 +1,10 @@
 import React from "react";
+import Background from "../assets/Background.svg";
 
 const Home = () => {
   return (
     <div className="home">
+      <div className="text">
       <h1>Welcome to The Gaming Lodge!</h1>
       <p>
         At The Gaming Lodge, we take gaming seriously - but not too seriously!
@@ -21,6 +23,7 @@ const Home = () => {
         games you've been eyeing. But it's not all about the games - it's about
         the experience.
       </p>
+    </div>
     </div>
   );
 };

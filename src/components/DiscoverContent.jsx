@@ -2,17 +2,22 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const DiscoverContent = () => {
-  // State variables for games, current view, platform filter, and platforms
   const [games, setGames] = useState([]);
   const [currentView, setCurrentView] = useState("discover");
   const [platformFilter, setPlatformFilter] = useState(null);
   const [platforms, setPlatforms] = useState([]);
-  const [refreshRandom, setRefreshRandom] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
 
-  // Get today's date in ISO format to filter games by release date
+  const handlePlatformChange = (platform) => {
+    setCurrentView("platformFilter");
+    setPlatformFilter(platform);
+  };
+
   const today = new Date().toISOString().slice(0, 10);
 
-  // List of forbidden words to filter games by title
   const forbiddenWords = [
     "girls",
     "waifu",
@@ -29,29 +34,55 @@ const DiscoverContent = () => {
     "ass",
     "pussy",
     "stripper",
-    "kinect"
+    "kinect",
+    "porn",
+    "strip",
+    "test",
+    "OST",
   ];
 
-  // Fetch games from API when current view or platform filter changes
   useEffect(() => {
-    // Construct the API URL based on the current view and platform filter
-    let apiUrl = "https://api.rawg.io/api/games?key=659e6634546b40f1aa9371bd8ab9e73e&ordering=-released&platforms=18,14,80,27,6";
+    let apiUrl =
+      "https://api.rawg.io/api/games?key=659e6634546b40f1aa9371bd8ab9e73e&ordering=-released";
+    const excludedPlatforms = "4,5,9"; // Platforms to exclude: PC (ID 4), Mac (ID 5), Linux (ID 9)
 
     if (currentView === "topRated") {
-      apiUrl += "&ordering=-rating";
+      apiUrl += `&ordering=-rating&excluded_platforms=${excludedPlatforms}`;
     } else if (currentView === "newReleases") {
-      apiUrl += `&dates=2022-04-30,${today}&ordering=-released`;
+      const twoWeeksAgo = new Date();
+      twoWeeksAgo.setDate(twoWeeksAgo.getDate() - 14);
+      const twoWeeksAgoDate = twoWeeksAgo.toISOString().slice(0, 10);
+      apiUrl += `&dates=${twoWeeksAgoDate},${today}&ordering=-released&excluded_platforms=${excludedPlatforms}`;
     } else if (currentView === "platformFilter" && platformFilter) {
-      apiUrl += `&platforms=${platformFilter}&ordering=-released`;
+      const includedPlatforms = platformFilter.toString(); // Platforms to include
+      apiUrl += `&platforms=${includedPlatforms}&excluded_platforms=${excludedPlatforms}&ordering=-released`;
     } else if (currentView === "randomGame") {
       const randomPage = Math.floor(Math.random() * 100);
-      apiUrl += `&page=${randomPage}`;
+      apiUrl += `&page=${randomPage}&excluded_platforms=${excludedPlatforms}`;
     }
 
-    // Fetch games from API and filter them by title
+    if (searchQuery) {
+      apiUrl += `&search=${encodeURIComponent(searchQuery)}`;
+    }
+
+    console.log("API URL:", apiUrl);
+
     axios
       .get(apiUrl)
       .then((response) => {
+        // Process API response
+        console.log("API response:", response.data);
+        // ...
+      })
+      .catch((error) => {
+        // Handle API error
+        console.error("API error:", error);
+      });
+
+    axios
+      .get(apiUrl)
+      .then((response) => {
+        console.log("API response:", response.data);
         let gameResults = response.data.results;
         if (currentView === "topRated") {
           gameResults = gameResults.slice(3);
@@ -69,40 +100,28 @@ const DiscoverContent = () => {
           const randomIndex = Math.floor(Math.random() * gameResults.length);
           gameResults = [gameResults[randomIndex]];
         }
+        console.log("Filtered games:", gameResults);
         setGames(gameResults);
       })
       .catch((error) => {
-        console.error(error);
+        console.error("API error:", error);
       });
-  }, [currentView, platformFilter, refreshRandom]);
+  }, [currentView, platformFilter, searchQuery]);
 
+  console.log("Games:", games);
 
-  // Fetch platforms from API when component mounts
-  useEffect(() => {
-    axios
-      .get(
-        "https://api.rawg.io/api/platforms?key=659e6634546b40f1aa9371bd8ab9e73e"
-      )
-      .then((response) => {
-        setPlatforms(response.data.results);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
-
-  // Handle platform filter change and set current view accordingly
-  const handlePlatformChange = (event) => {
-    setPlatformFilter(event.target.value);
-    setCurrentView("platformFilter");
-  };
-
-// Render the discover content
-return (
-<div className="discoverContent">
-{/* Heading */}
-<h1>Discover</h1>
-
+  // Render the discover content
+  return (
+    <div className="discoverContent">
+      {/* Heading */}
+      <h1>Discover</h1>
+      <input
+        type="text"
+        value={searchQuery}
+        onChange={handleSearchChange}
+        placeholder="Search by game title"
+        className="searchBar"
+      />
       {/* Buttons for different views */}
       <div className="discoverButtons">
         {/* Button to show popular games */}
@@ -146,10 +165,7 @@ return (
         {/* Map over the games array and display game information */}
         {games.map((game) => (
           <div key={game.id}>
-            {/* Show game name */}
             <p>{game?.name}</p>
-
-            {/* Show game image */}
             <img src={game?.background_image} className="gameImage" />
           </div>
         ))}

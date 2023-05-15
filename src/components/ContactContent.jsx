@@ -4,6 +4,7 @@ import React from "react";
 const ContactContent = () => {
   return (
     <div className="contactContent">
+      <div className="text">
         <h1>Let's get in touch!</h1>
       {/* Introduction to the contact page */}
       <p>
@@ -17,6 +18,7 @@ const ContactContent = () => {
         gaming content and updates. We're here to make your experience on our
         website the best it can be, so don't hesitate to reach out. 
       </p>
+    </div>
     </div>
   );
 };
