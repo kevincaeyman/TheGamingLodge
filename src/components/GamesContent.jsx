@@ -1,35 +1,24 @@
-import React, { useState, useEffect, useContext } from "react";
-import Axios from "axios";
+import React, { useContext, useEffect } from "react";
 import ApiContext from "../context/ApiContext";
 
 const GamesContent = () => {
-  const gameData = useContext(ApiContext);
+  const { gameData, handleLoadMoreGames, loadNextPage, totalGames, isLoading } =
+    useContext(ApiContext);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await Axios.get(
-          "https://www.giantbomb.com/api/search/",
-          {
-            params: {
-              api_key: "e32053903724a60a9020ddb3666371d879f12488",
-              format: "json",
-              query: "games",
-              resources: "game",
-            },
-          }
-        );
-        console.log(response.data);
-      } catch (error) {
-        console.error(error);
+    if (gameData && gameData.results) {
+      const currentVisibleGames = gameData.results.length;
+      if (currentVisibleGames < totalGames) {
+        handleLoadMoreGames();
       }
-    };
+    }
+  }, [gameData, totalGames, handleLoadMoreGames]);
 
-    fetchData();
-  }, []);
+  if (isLoading || !gameData) {
+    return <div>Loading...</div>;
+  }
 
-  // Print the gameData in the console
-  console.log(gameData);
+  const { results, number_of_total_results } = gameData;
 
   return (
     <div className="gamesContent">
@@ -40,6 +29,7 @@ const GamesContent = () => {
         placeholder="Search by game title"
         className="searchBar"
       />
+
       {/* Buttons for different views */}
       <div className="discoverButtons">
         {/* Button to show popular games */}
@@ -51,24 +41,29 @@ const GamesContent = () => {
         {/* Button to show platform filter */}
         <select className="buttons">
           <option>Filter by platform</option>
-
           <option></option>
         </select>
 
         {/* Button to show a random game */}
         <button className="buttons">Random Game</button>
       </div>
-
       {/* Display game information */}
       <div className="gameInfo">
-        {gameData &&
-          gameData.results.map((game) => (
+        {results &&
+          results.map((game) => (
             <div key={game.id}>
               <img src={game.image.original_url} alt="Game Image" />
               <div>{game.name}</div>
             </div>
           ))}
       </div>
+
+      {/* Load More Button */}
+      {results.length < number_of_total_results && (
+        <button className="loadMoreButton" onClick={loadNextPage}>
+          Load More
+        </button>
+      )}
     </div>
   );
 };
