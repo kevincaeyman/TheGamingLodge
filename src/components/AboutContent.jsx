@@ -9,7 +9,7 @@ const AboutContent = () => {
       {/* Paragraph about the mission of the website */}
       <p>
         Our mission is to remind you that gaming is all about having fun, and
-        it's totally cool to take it easy.{" "}
+        it's totally cool to take it easy.
       </p>
       {/* Paragraph about relaxing and enjoying gaming */}
       <p>
@@ -18,7 +18,7 @@ const AboutContent = () => {
       </p>
       {/* Paragraph about the website's purpose */}
       Whether you're a hardcore gamer or just looking to unwind, our website is
-      the perfect place to find your next favorite game and have some chill
+      the perfect place <br/> to find your next favorite game and have some chill
       time.
       {/* Paragraph about setting difficulty to easy and organizing game shelves */}
       <p>

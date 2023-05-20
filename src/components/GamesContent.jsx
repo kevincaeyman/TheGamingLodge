@@ -1,69 +1,86 @@
-import React, { useContext, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import ApiContext from "../context/ApiContext";
 
 const GamesContent = () => {
-  const { gameData, handleLoadMoreGames, loadNextPage, totalGames, isLoading } =
-    useContext(ApiContext);
+  const { gameData } = useContext(ApiContext);
+  console.log(gameData);
 
-  useEffect(() => {
+  const [currentView, setCurrentView] = useState("default");
+  const [filteredGames, setFilteredGames] = useState([]);
+
+  usconst filterGames = () => {
     if (gameData && gameData.results) {
-      const currentVisibleGames = gameData.results.length;
-      if (currentVisibleGames < totalGames) {
-        handleLoadMoreGames();
+      let filtered = [];
+      
+      // Apply different filtering logic based on the current view
+      switch (currentView) {
+        case "popular":
+          filtered = gameData.results.filter((game) => /* Add your filtering logic for popular games */);
+          break;
+        case "new":
+          filtered = gameData.results.filter((game) => /* Add your filtering logic for new releases */);
+          break;
+        case "filtered":
+          filtered = gameData.results.filter((game) => /* Add your filtering logic based on platform filter */);
+          break;
+        default:
+          filtered = gameData.results;
+          break;
       }
+  
+      // Update the filtered games state
+      setFilteredGames(filtered);
     }
-  }, [gameData, totalGames, handleLoadMoreGames]);
+  };
+  
 
-  if (isLoading || !gameData) {
-    return <div>Loading...</div>;
-  }
-
-  const { results, number_of_total_results } = gameData;
+    filterGames();
+  }, [gameData, currentView];
 
   return (
     <div className="gamesContent">
       {/* Heading */}
-      <h1>Discover</h1>
+      <h1>Games</h1>
       <input
         type="text"
         placeholder="Search by game title"
         className="searchBar"
       />
-
       {/* Buttons for different views */}
       <div className="discoverButtons">
         {/* Button to show popular games */}
-        <button className="buttons">Popular games</button>
+        <button className="buttons" onClick={() => setCurrentView("popular")}>
+          Popular games
+        </button>
 
         {/* Button to show new releases */}
-        <button className="buttons">New releases</button>
+        <button className="buttons" onClick={() => setCurrentView("new")}>
+          New releases
+        </button>
 
         {/* Button to show platform filter */}
-        <select className="buttons">
+        <select
+          className="buttons"
+          onChange={(e) => setCurrentView("filtered")}
+        >
           <option>Filter by platform</option>
-          <option></option>
+          {/* Add platform options */}
         </select>
 
         {/* Button to show a random game */}
         <button className="buttons">Random Game</button>
       </div>
+
       {/* Display game information */}
       <div className="gameInfo">
-        {results &&
-          results.map((game) => (
+        {filteredGames &&
+          filteredGames.map((game) => (
             <div key={game.id}>
               <img src={game.image.original_url} alt="Game Image" />
               <div>{game.name}</div>
             </div>
           ))}
       </div>
-
-      {/* Load More Button */}
-      {results.length < number_of_total_results && (
-        <button className="loadMoreButton" onClick={loadNextPage}>
-          Load More
-        </button>
-      )}
     </div>
   );
 };
