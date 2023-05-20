@@ -1,41 +1,82 @@
 import React, { useState, useEffect, useContext } from "react";
-import ApiContext from "../context/ApiContext";
+import { ApiContext } from "../context/ApiContext";
 
 const GamesContent = () => {
   const { gameData } = useContext(ApiContext);
-  console.log(gameData);
-
   const [currentView, setCurrentView] = useState("default");
   const [filteredGames, setFilteredGames] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [selectedPlatform, setSelectedPlatform] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
 
-  usconst filterGames = () => {
+  useEffect(() => {
     if (gameData && gameData.results) {
-      let filtered = [];
-      
-      // Apply different filtering logic based on the current view
-      switch (currentView) {
-        case "popular":
-          filtered = gameData.results.filter((game) => /* Add your filtering logic for popular games */);
-          break;
-        case "new":
-          filtered = gameData.results.filter((game) => /* Add your filtering logic for new releases */);
-          break;
-        case "filtered":
-          filtered = gameData.results.filter((game) => /* Add your filtering logic based on platform filter */);
-          break;
-        default:
-          filtered = gameData.results;
-          break;
-      }
-  
-      // Update the filtered games state
-      setFilteredGames(filtered);
+      filterGames();
+      setLoading(false);
     }
+  }, [gameData, currentView, currentPage]);
+  
+  useEffect(() => {
+    const filterBySearchQuery = () => {
+      const filtered = gameData.results.filter(
+        (game) => game.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredGames(filtered);
+    };
+  
+    if (gameData && gameData.results) {
+      filterBySearchQuery();
+    }
+  }, [gameData, searchQuery]);
+
+  useEffect(() => {
+    filterGames();
+  }, [selectedPlatform]);
+
+  const filterGames = () => {
+    if (currentView === "new") {
+      filterNewReleases();
+    } else if (currentView === "filtered") {
+      filterByPlatform();
+    } else {
+      setFilteredGames([]);
+    }
+  };
+
+  const filterNewReleases = () => {
+    const filtered = gameData.results.filter((game) => {
+      const releaseDate = game.original_release_date;
+      const today = new Date().toISOString().split("T")[0];
+      return releaseDate && releaseDate <= today && game.name;
+    });
+    setFilteredGames(filtered);
+  };
+
+  const filterByPlatform = () => {
+    const filtered = gameData.results.filter(
+      (game) =>
+        game.platform &&
+        game.platform.some((platform) => platform.name === selectedPlatform)
+    );
+    setFilteredGames(filtered);
   };
   
 
-    filterGames();
-  }, [gameData, currentView];
+  const handlePlatformChange = (e) => {
+    const platformName = e.target.value;
+    setSelectedPlatform(platformName);
+  };
+
+  const handleSearchQueryChange = (e) => {
+    const query = e.target.value;
+    setSearchQuery(query);
+  };
+
+  const loadMoreGames = () => {
+    setCurrentPage(currentPage + 1);
+    filterGames(); // Re-apply the filter with the updated page number
+  };
 
   return (
     <div className="gamesContent">
@@ -45,26 +86,28 @@ const GamesContent = () => {
         type="text"
         placeholder="Search by game title"
         className="searchBar"
+        value={searchQuery}
+        onChange={handleSearchQueryChange}
       />
       {/* Buttons for different views */}
       <div className="discoverButtons">
-        {/* Button to show popular games */}
-        <button className="buttons" onClick={() => setCurrentView("popular")}>
-          Popular games
-        </button>
-
         {/* Button to show new releases */}
         <button className="buttons" onClick={() => setCurrentView("new")}>
           New releases
         </button>
 
         {/* Button to show platform filter */}
-        <select
-          className="buttons"
-          onChange={(e) => setCurrentView("filtered")}
-        >
-          <option>Filter by platform</option>
-          {/* Add platform options */}
+        <select className="buttons" onChange={handlePlatformChange}>
+          <option value="" key="default">
+            Filter by platform
+          </option>
+          <option value="PlayStation 5">PlayStation 5</option>
+          <option value="Xbox Series XS">Xbox Series XS</option>
+          <option value="PlayStation 4">PlayStation 4</option>
+          <option value="Xbox One">Xbox One</option>
+          <option value="Nintendo Switch">Nintendo Switch</option>
+          <option value="PC">PC</option>
+          {/* Add more options for other platforms */}
         </select>
 
         {/* Button to show a random game */}
@@ -73,14 +116,51 @@ const GamesContent = () => {
 
       {/* Display game information */}
       <div className="gameInfo">
-        {filteredGames &&
-          filteredGames.map((game) => (
-            <div key={game.id}>
-              <img src={game.image.original_url} alt="Game Image" />
-              <div>{game.name}</div>
-            </div>
-          ))}
+        {loading ? (
+          <p>Loading...</p>
+        ) : (
+          <>
+            {currentView === "default" && (
+              <p>
+                Welcome to the games section. In order to look for a specific
+                game, please use the options above.
+              </p>
+            )}
+            {filteredGames.length === 0 && currentView !== "default" ? (
+              <p>No games found.</p>
+            ) : (
+              <>
+                {filteredGames.map((game) => (
+                  <div key={game.id} className="gameCard">
+                    <div key={game.id}>
+                      <img
+                        src={game.image && game.image.original_url}
+                        alt="Game Image"
+                      />
+                      <div>{game.name && game.name}</div>
+                      <div>
+                        Platform:{" "}
+                        {game.platform &&
+                          game.platform
+                            .map((platform) => platform.name)
+                            .join(", ")}
+                      </div>
+                    </div>
+                    {/* Add more details you want to display */}
+                  </div>
+                ))}
+              </>
+            )}
+          </>
+        )}
       </div>
+
+      {/* Button to load more games */}
+      {currentView !== "default" && (
+        <button className="loadMoreButton" onClick={loadMoreGames}>
+          Load More Games
+        </button>
+      )}
     </div>
   );
 };

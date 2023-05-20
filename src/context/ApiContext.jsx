@@ -1,11 +1,11 @@
 import React, { createContext, useState, useEffect } from "react";
 import axios from "axios";
 
-// Creating context
 const ApiContext = createContext();
 
 const ApiProvider = ({ children }) => {
   const [gameData, setGameData] = useState(null);
+  const [platforms, setPlatforms] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,6 +24,14 @@ const ApiProvider = ({ children }) => {
           }
         );
         setGameData(response.data);
+        const uniquePlatforms = response.data.results
+          .flatMap((game) => game.platforms)
+          .filter((platform, index, platforms) => {
+            return (
+              platforms.findIndex((p) => p.id === platform.id) === index
+            );
+          });
+        setPlatforms(uniquePlatforms);
       } catch (error) {
         console.log(error);
       }
@@ -33,11 +41,10 @@ const ApiProvider = ({ children }) => {
   }, []);
 
   return (
-    <ApiContext.Provider value={{ gameData }}>
+    <ApiContext.Provider value={{ gameData, platforms }}>
       {children}
     </ApiContext.Provider>
   );
 };
 
-export { ApiProvider };
-export default ApiContext;
+export { ApiProvider, ApiContext };
