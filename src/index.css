@@ -93,7 +93,7 @@ a:hover:after {
   background-size: cover;
   background-position: center -120px;
   background-repeat: no-repeat;
-  height: 75vh; /* Adjust the height as needed */
+  height: 75vh;
 }
 
 .home .text {
@@ -204,12 +204,21 @@ a:hover:after {
   max-width: 100%;
 }
 .aboutContent{
+  position: relative;
   display: flex;
   flex-flow: column;
-  max-width: 60%;
   color: #eee9da;
-  padding-top: 40px;
-  margin-left: 20px;
+  text-align: start;
+  padding-top: 70px;
+  padding-left: 20px;
+  background-image: url('./assets/Background.svg');
+  background-size: cover;
+  background-position: center -120px;
+  background-repeat: no-repeat;
+  height: 75vh;
+}
+.aboutContent p{
+  max-width: 50%;
 }
 .contactContent{
   position: relative;

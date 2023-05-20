@@ -6,9 +6,6 @@ const ApiContext = createContext();
 
 const ApiProvider = ({ children }) => {
   const [gameData, setGameData] = useState(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [visibleGames, setVisibleGames] = useState(40);
-  const [totalGames, setTotalGames] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,32 +24,16 @@ const ApiProvider = ({ children }) => {
           }
         );
         setGameData(response.data);
-        setFetched(true); // Set fetched to true after successfully fetching data
       } catch (error) {
         console.log(error);
       }
     };
-  
-    if (!fetched) { // Fetch data only if it hasn't been fetched yet
-      fetchData();
-    }
-  }, [fetched]);
 
     fetchData();
-  }, [currentPage, visibleGames]);
-
-  const handleLoadMoreGames = () => {
-    setVisibleGames((prevVisibleGames) => prevVisibleGames + 40);
-  };
-
-  const loadNextPage = () => {
-    setCurrentPage((prevPage) => prevPage + 1);
-  };
+  }, []);
 
   return (
-    <ApiContext.Provider
-      value={{ gameData, handleLoadMoreGames, loadNextPage, totalGames }}
-    >
+    <ApiContext.Provider value={{ gameData }}>
       {children}
     </ApiContext.Provider>
   );
