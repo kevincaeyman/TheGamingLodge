@@ -2,13 +2,14 @@ import React, { useState, useEffect, useContext } from "react";
 import { ApiContext } from "../context/ApiContext";
 
 const GamesContent = () => {
-  const { gameData } = useContext(ApiContext);
+  const { gameData, retrieveNewReleases, newReleases } = useContext(ApiContext);
   const [currentView, setCurrentView] = useState("default");
   const [filteredGames, setFilteredGames] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedPlatform, setSelectedPlatform] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
+  const [offsetNewReleases, setOffsetNewReleases] = useState(0)
 
   useEffect(() => {
     if (gameData && gameData.results) {
@@ -16,15 +17,15 @@ const GamesContent = () => {
       setLoading(false);
     }
   }, [gameData, currentView, currentPage]);
-  
+
   useEffect(() => {
     const filterBySearchQuery = () => {
-      const filtered = gameData.results.filter(
-        (game) => game.name.toLowerCase().includes(searchQuery.toLowerCase())
+      const filtered = gameData.results.filter((game) =>
+        game.name.toLowerCase().includes(searchQuery.toLowerCase())
       );
       setFilteredGames(filtered);
     };
-  
+
     if (gameData && gameData.results) {
       filterBySearchQuery();
     }
@@ -45,12 +46,8 @@ const GamesContent = () => {
   };
 
   const filterNewReleases = () => {
-    const filtered = gameData.results.filter((game) => {
-      const releaseDate = game.original_release_date;
-      const today = new Date().toISOString().split("T")[0];
-      return releaseDate && releaseDate <= today && game.name;
-    });
-    setFilteredGames(filtered);
+    retrieveNewReleases();
+    setOffsetNewReleases((prev) => prev + 100)
   };
 
   const filterByPlatform = () => {
@@ -61,7 +58,6 @@ const GamesContent = () => {
     );
     setFilteredGames(filtered);
   };
-  
 
   const handlePlatformChange = (e) => {
     const platformName = e.target.value;
@@ -74,8 +70,8 @@ const GamesContent = () => {
   };
 
   const loadMoreGames = () => {
-    setCurrentPage(currentPage + 1);
-    filterGames(); // Re-apply the filter with the updated page number
+    retrieveNewReleases(offsetNewReleases);
+    setOffsetNewReleases((prev) => prev + 100)
   };
 
   return (
@@ -126,11 +122,10 @@ const GamesContent = () => {
                 game, please use the options above.
               </p>
             )}
-            {filteredGames.length === 0 && currentView !== "default" ? (
-              <p>No games found.</p>
-            ) : (
-              <>
-                {filteredGames.map((game) => (
+
+            <>
+              {currentView === "default" &&
+                gameData.results.map((game) => (
                   <div key={game.id} className="gameCard">
                     <div key={game.id}>
                       <img
@@ -146,7 +141,30 @@ const GamesContent = () => {
                             .join(", ")}
                       </div>
                     </div>
-                    {/* Add more details you want to display */}
+                  </div>
+                ))}
+            </>
+
+            {newReleases.length === 0 && currentView !== "default" ? (
+              <p>No games found.</p>
+            ) : (
+              <>
+                {newReleases.map((game) => (
+                  <div key={game.id} className="gameCard">
+                    <div key={game.id}>
+                      <img
+                        src={game.image && game.image.original_url}
+                        alt="Game Image"
+                      />
+                      <div>{game.name && game.name}</div>
+                      <div>
+                        Platform:{" "}
+                        {game.platform &&
+                          game.platform
+                            .map((platform) => platform.name)
+                            .join(", ")}
+                      </div>
+                    </div>
                   </div>
                 ))}
               </>
