@@ -116,6 +116,7 @@ a:hover:after {
   flex-flow: column wrap;
   align-items: center;
   justify-content: center;
+  position: relative;
 }
 
 /* Games Page */
@@ -130,6 +131,12 @@ a:hover:after {
   max-width: 1200px;
   justify-content: center;
   margin: 0 auto;
+}
+
+.gameIntro{
+  padding-bottom: 10px;
+  margin-top: -10px;
+  font-size: 16px;
 }
 
 .gameInfo > div {
@@ -156,16 +163,17 @@ a:hover:after {
 }
 
 .gameInfo img {
-  flex-grow: 1;
-  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
+  object-fit: cover;
 }
-
 .gameInfo p {
   margin: 0;
   padding: 10px;
-  font-size: 20px;
+  font-size: 17px;
   font-weight: bold;
   text-align: center;
   color: rgb(238, 233, 218);
@@ -175,6 +183,34 @@ a:hover:after {
   background-color: rgb(96, 150, 180, 0.8);
   z-index: 1;
 }
+.selectedGame {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  color: #6096b4;
+  background-color: #eee9da;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+  text-align: center;
+  border-radius: 10px;
+}
+
+
+.selectedGameImage {
+  width: 100%;
+}
+
+.selectedGameDetails {
+  margin-top: 10px;
+}
+
+.gameInfo {
+  margin-top: 40px;
+}
+
 .buttons {
   margin-right: 20px;
   margin-bottom: 20px;
@@ -302,4 +338,43 @@ a:hover:after {
   padding-right: 20px;
   border-radius: 20px;
   margin-bottom: 20px;
+}
+
+.selectedGame {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 100%;
+  max-height: calc(100vh - 70px); /* Adjust the value as needed to leave space between container and page limits */
+  overflow-y: auto; /* Enable vertical scroll if content exceeds the container height */
+  box-shadow: 0 0px 8px 3px rgba(0, 0, 0, 0.4);
+}
+
+.selectedGameHeader {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.selectedGameName {
+  text-align: center;
+  margin-bottom: 10px; /* Add margin bottom to create space below the title */
+}
+
+.closingIcon {
+  height: 30px;
+  padding: 5px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+}
+
+.selectedGameDetails {
+  margin-top: -40px; /* Adjust the value as needed to create space between header and content */
+}
+.selectedGameImage{
+  padding-bottom: 20px;
 }

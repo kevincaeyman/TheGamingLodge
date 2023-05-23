@@ -1,0 +1,11 @@
+export const PLAYSTATION_5_PLATFORM = '146';
+export const PLAYSTATION_4_PLATFORM = '35';
+export const XBOX_SERIES_PLATFORM = '176';
+export const XBOX_ONE_PLATFORM = '19';
+export const NINTENDO_SWITCH_PLATFORM = '179';
+export const NINTENDO_3DS_PLATFORM = '117';
+export const PC_PLATFORM = '145';
+export const MAC_PLATFORM = '20';
+export const LINUX_PLATFORM = '157';
+export const IOS_PLATFORM = '139';
+export const ANDROID_PLATFORM = '36';
