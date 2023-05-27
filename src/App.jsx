@@ -11,6 +11,7 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
+import Footer from "./components/Footer";
 import { signOut } from "firebase/auth";
 import { auth } from "./firebase";
 
@@ -39,6 +40,7 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
       </Routes>
+      <Footer/>
     </ApiProvider>
   );
 }
