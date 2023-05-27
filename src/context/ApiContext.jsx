@@ -27,7 +27,7 @@ const ApiProvider = ({ children }) => {
           },
         }
       );
-
+  
       setGameData((prevGameData) => {
         const newGameData = response.data;
         if (prevGameData) {
@@ -37,7 +37,7 @@ const ApiProvider = ({ children }) => {
         }
         return newGameData;
       });
-
+  
       setPlatforms((prevPlatforms) => {
         const uniquePlatforms = response.data.results
           .flatMap((game) => game.platforms)
@@ -46,13 +46,14 @@ const ApiProvider = ({ children }) => {
               platforms.findIndex((p) => p.id === platform.id) === index
             );
           });
-
+  
         return prevPlatforms.concat(uniquePlatforms);
       });
     } catch (error) {
       console.log(error);
     }
   };
+  
 
   const retrieveNewReleases = async (offset) => {
     try {
@@ -75,16 +76,18 @@ const ApiProvider = ({ children }) => {
       const newResults = response.data.results.filter((game) => {
         const releaseDate = game.original_release_date;
         const today = new Date().toISOString().split("T")[0];
-        return releaseDate && releaseDate <= today && game.name;
+        return releaseDate && releaseDate.split(" ")[0] <= today && game.name;
       });
+      
 
-      setNewReleases((prevReleases) => {
-        const updatedReleases = prevReleases.concat(newResults);
-        const uniqueReleases = Array.from(
-          new Set(updatedReleases.map((game) => game.id))
-        ).map((id) => updatedReleases.find((game) => game.id === id));
-        return uniqueReleases;
-      });
+setNewReleases((prevReleases) => {
+  const updatedReleases = prevReleases.concat(newResults);
+  const uniqueGameIds = new Set(updatedReleases.map((game) => game.id));
+  const uniqueReleases = Array.from(uniqueGameIds).map((id) =>
+    updatedReleases.find((game) => game.id === id)
+  );
+  return uniqueReleases;
+});
     } catch (error) {
       console.log(error);
     }
@@ -105,12 +108,18 @@ const ApiProvider = ({ children }) => {
       html.offsetHeight
     );
     const windowBottom = windowHeight + window.pageYOffset;
-    if (windowBottom >= docHeight) {
-      const offset = newReleasesOffset + 100;
-      setNewReleasesOffset(offset);
-      retrieveNewReleases(offset);
+    const distanceToBottom = docHeight - windowBottom;
+  
+    // Calculate the scrollThreshold as a percentage of the window height
+    const scrollThresholdPercentage = 0.8; // Adjust this value as needed
+    const scrollThreshold = windowHeight * scrollThresholdPercentage;
+  
+    if (distanceToBottom < scrollThreshold) {
+      const offset = gameData.results.length;
+      retrieveAllGames(offset);
     }
   };
+  
 
   useEffect(() => {
     retrieveAllGames(0);

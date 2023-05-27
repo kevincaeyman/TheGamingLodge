@@ -13,12 +13,8 @@ import {
 import closingIcon from "../assets/closingIcon.png";
 
 const GamesContent = () => {
-  const {
-    gameData,
-    retrieveNewReleases,
-    newReleases,
-    retrieveAllGames,
-  } = useContext(ApiContext);
+  const { gameData, retrieveNewReleases, newReleases, retrieveAllGames } =
+    useContext(ApiContext);
   const [currentView, setCurrentView] = useState("default");
   const [filteredGames, setFilteredGames] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -60,12 +56,12 @@ const GamesContent = () => {
   const filterGames = () => {
     if (currentView === "new") {
       filterNewReleases();
-    } else if (currentView === "filtered") {
+    } else if (currentView === "filteredByPlatform") {
       filterByPlatform();
     } else {
       setFilteredGames([]);
     }
-  };
+  };  
 
   const filterNewReleases = () => {
     setOffsetNewReleases((prev) => prev + 100);
@@ -80,11 +76,12 @@ const GamesContent = () => {
       });
       setFilteredGames(filtered);
     }
-  };
+  };  
 
   const handlePlatformChange = (e) => {
-    const platformName = e.target.value;
-    setSelectedPlatform(platformName);
+    const platform = e.target.value;
+    setSelectedPlatform(platform);
+    setCurrentView("filteredByPlatform");
   };
 
   const handleSearchQueryChange = (e) => {
@@ -92,13 +89,13 @@ const GamesContent = () => {
     setSearchQuery(query);
   };
 
-  const loadMoreGames = () => {
+  /*const loadMoreGames = () => {
     setOffsetAllGames((prev) => prev + 40);
-  };  
+  };
 
   const loadMoreNewReleases = () => {
     setOffsetNewReleases((prev) => prev + 100);
-  };
+  };*/
 
   const SelectedGame = ({ game }) => {
     const platforms =
@@ -124,13 +121,21 @@ const GamesContent = () => {
           className="selectedGameImage"
         />
         <div className="selectedGameDetails">
-          <p className="selectedGameDescription">
-            <b>Description:</b> <br />
-            <br /> {game.deck}
-          </p>
-          <p className="selectedGamePlatforms">
-            <b>Platforms:</b> <br /> <br /> {platforms}
-          </p>
+          <div className="selectedGameDescription">
+            <p>
+              <b>Release Date:</b> <br />
+              {game.original_release_date === null
+                ? "TBA"
+                : game.original_release_date}{" "}
+              <br />
+            </p>
+            <p>
+              <b>Description:</b>
+              <br /> {game.deck}
+            </p>
+          </div>
+          <b>Platforms:</b> <br />
+          {platforms}
         </div>
       </div>
     );
@@ -148,7 +153,7 @@ const GamesContent = () => {
     if (offsetAllGames > 0) {
       retrieveAllGames(offsetAllGames, true);
     }
-  }, [offsetAllGames]);  
+  }, [offsetAllGames]);
 
   useEffect(() => {
     if (offsetNewReleases > 0) {
@@ -222,9 +227,7 @@ const GamesContent = () => {
                   <p className="gameName">{game.name && game.name}</p>
                 </div>
               ))}
-            {newReleases.length === 0 && currentView !== "default" ? (
-              <p>Loading...</p>
-            ) : (
+             {currentView === "new" && (
               <>
                 {newReleases.map((game) => (
                   <div
@@ -239,7 +242,28 @@ const GamesContent = () => {
                     <p className="gameName">{game.name && game.name}</p>
                   </div>
                 ))}
+                {loading && <p>Loading more new releases...</p>}
+                {!loading && newReleases.length === 0 && (
+                  <p>Loading...</p>
+                )}
               </>
+            )}
+            {currentView === "filteredByPlatform" && (
+              <>
+              {filteredGames.map((game) => (
+                <div
+                  key={game.id}
+                  className="gameCard"
+                  onClick={() => selectGame(game)}
+                >
+                  <img
+                    src={game.image && game.image.super_url}
+                    alt="Game Image"
+                  />
+                  <p className="gameName">{game.name && game.name}</p>
+                </div>
+              ))}
+            </>
             )}
           </>
         )}

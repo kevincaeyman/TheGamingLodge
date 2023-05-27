@@ -362,6 +362,9 @@ a:hover:after {
   text-align: center;
   margin-bottom: 10px; /* Add margin bottom to create space below the title */
 }
+.selectedGameDescription{
+  padding-top: 20px;
+}
 
 .closingIcon {
   height: 30px;
