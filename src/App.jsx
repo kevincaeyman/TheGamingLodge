@@ -1,5 +1,4 @@
 import React from "react";
-import { ApiProvider } from "./context/ApiContext";
 import { Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import AuthDetails from "./components/AuthDetails";
@@ -14,6 +13,7 @@ import Login from "./pages/Login";
 import Footer from "./components/Footer";
 import { signOut } from "firebase/auth";
 import { auth } from "./firebase";
+import { ApiProvider } from "./context/ApiContext";
 
 function App() {
   const handleLogout = () => {
@@ -40,7 +40,7 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
       </Routes>
-      <Footer/>
+      <Footer />
     </ApiProvider>
   );
 }

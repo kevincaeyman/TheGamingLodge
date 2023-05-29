@@ -11,6 +11,9 @@ import {
   WII_U_PLATFORM,
 } from "../constants/platforms";
 import closingIcon from "../assets/closingIcon.png";
+import NewReleases from "./NewReleases";
+import DefaultGamesView from "./DefaultGamesView";
+import FilterByPlatformsView from "./FilterByPlatformsView";
 
 const GamesContent = () => {
   const { gameData, retrieveNewReleases, newReleases, retrieveAllGames } =
@@ -28,7 +31,7 @@ const GamesContent = () => {
     if (gameData && gameData.results) {
       filterGames();
       setLoading(false);
-      console.log(gameData.results);
+      //console.log(gameData.results);
     }
   }, [gameData, currentView]);
 
@@ -45,38 +48,17 @@ const GamesContent = () => {
     }
   }, [gameData, searchQuery]);
 
-  useEffect(() => {
-    filterGames();
-  }, [currentView, selectedPlatform]);
-
-  useEffect(() => {
-    filterByPlatform();
-  }, [selectedPlatform]);
-
   const filterGames = () => {
     if (currentView === "new") {
       filterNewReleases();
-    } else if (currentView === "filteredByPlatform") {
-      filterByPlatform();
     } else {
       setFilteredGames([]);
     }
-  };  
+  };
 
   const filterNewReleases = () => {
     setOffsetNewReleases((prev) => prev + 100);
   };
-
-  const filterByPlatform = () => {
-    if (gameData && gameData.results) {
-      const filtered = gameData.results.filter((game) => {
-        return game.platforms.some(
-          (platform) => platform.id.toString() === selectedPlatform
-        );
-      });
-      setFilteredGames(filtered);
-    }
-  };  
 
   const handlePlatformChange = (e) => {
     const platform = e.target.value;
@@ -88,14 +70,6 @@ const GamesContent = () => {
     const query = e.target.value;
     setSearchQuery(query);
   };
-
-  /*const loadMoreGames = () => {
-    setOffsetAllGames((prev) => prev + 40);
-  };
-
-  const loadMoreNewReleases = () => {
-    setOffsetNewReleases((prev) => prev + 100);
-  };*/
 
   const SelectedGame = ({ game }) => {
     const platforms =
@@ -163,7 +137,6 @@ const GamesContent = () => {
 
   return (
     <div className="gamesContent">
-      {/* Heading */}
       <h1>Games</h1>
       {currentView === "default" && (
         <p className="gameIntro">
@@ -178,14 +151,11 @@ const GamesContent = () => {
         value={searchQuery}
         onChange={handleSearchQueryChange}
       />
-      {/* Buttons for different views */}
       <div className="discoverButtons">
-        {/* Button to show new releases */}
         <button className="buttons" onClick={() => setCurrentView("new")}>
           New releases
         </button>
 
-        {/* Button to show platform filter */}
         <select className="buttons" onChange={handlePlatformChange}>
           <option value="" key="default">
             Filter by platform
@@ -199,71 +169,21 @@ const GamesContent = () => {
           <option value={NINTENDO_3DS_PLATFORM}>Nintendo 3DS</option>
           <option value={WII_U_PLATFORM}>Wii U</option>
         </select>
-
-        {/* Button to show a random game */}
-        <button className="buttons">Random Game</button>
       </div>
 
       {/* Display selected game details */}
       {selectedGame && <SelectedGame game={selectedGame} />}
 
       {/* Display game information */}
-      <div className="gameInfo">
+      <div>
         {loading ? (
           <p>Loading...</p>
         ) : (
           <>
-            {currentView === "default" &&
-              filteredGames.map((game) => (
-                <div
-                  key={game.id}
-                  className="gameCard"
-                  onClick={() => selectGame(game)}
-                >
-                  <img
-                    src={game.image && game.image.super_url}
-                    alt="Game Image"
-                  />
-                  <p className="gameName">{game.name && game.name}</p>
-                </div>
-              ))}
-             {currentView === "new" && (
-              <>
-                {newReleases.map((game) => (
-                  <div
-                    key={game.id}
-                    className="gameCard"
-                    onClick={() => selectGame(game)}
-                  >
-                    <img
-                      src={game.image && game.image.super_url}
-                      alt="Game Image"
-                    />
-                    <p className="gameName">{game.name && game.name}</p>
-                  </div>
-                ))}
-                {loading && <p>Loading more new releases...</p>}
-                {!loading && newReleases.length === 0 && (
-                  <p>Loading...</p>
-                )}
-              </>
-            )}
+            {currentView === "new" && <NewReleases />}
+            {currentView === "default" && <DefaultGamesView />}
             {currentView === "filteredByPlatform" && (
-              <>
-              {filteredGames.map((game) => (
-                <div
-                  key={game.id}
-                  className="gameCard"
-                  onClick={() => selectGame(game)}
-                >
-                  <img
-                    src={game.image && game.image.super_url}
-                    alt="Game Image"
-                  />
-                  <p className="gameName">{game.name && game.name}</p>
-                </div>
-              ))}
-            </>
+               <FilterByPlatformsView selectedPlatform={selectedPlatform} setSelectedPlatform={setSelectedPlatform} setCurrentView={setCurrentView} />
             )}
           </>
         )}

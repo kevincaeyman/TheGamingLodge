@@ -55,7 +55,7 @@ const ApiProvider = ({ children }) => {
   };
   
 
-  const retrieveNewReleases = async (offset) => {
+  const retrieveNewReleases = async () => {
     try {
       const response = await axios.get(
         "https://www.giantbomb.com/api/games/",
@@ -67,31 +67,34 @@ const ApiProvider = ({ children }) => {
             resources: "game",
             filter: "platforms:157,176,146,179,145,139,117,94,130",
             sort: "original_release_date:desc",
-            limit: 40,
-            offset: offset,
+            limit: 100,
+            offset: newReleasesOffset, // Use the newReleasesOffset as the offset parameter
           },
         }
       );
-
+  
       const newResults = response.data.results.filter((game) => {
         const releaseDate = game.original_release_date;
         const today = new Date().toISOString().split("T")[0];
         return releaseDate && releaseDate.split(" ")[0] <= today && game.name;
       });
-      
-
-setNewReleases((prevReleases) => {
-  const updatedReleases = prevReleases.concat(newResults);
-  const uniqueGameIds = new Set(updatedReleases.map((game) => game.id));
-  const uniqueReleases = Array.from(uniqueGameIds).map((id) =>
-    updatedReleases.find((game) => game.id === id)
-  );
-  return uniqueReleases;
-});
+  
+      setNewReleases((prevReleases) => {
+        const updatedReleases = prevReleases.concat(newResults);
+        const uniqueGameIds = new Set(updatedReleases.map((game) => game.id));
+        const uniqueReleases = Array.from(uniqueGameIds).map((id) =>
+          updatedReleases.find((game) => game.id === id)
+        );
+        return uniqueReleases;
+      });
+  
+      // Update the newReleasesOffset with the new offset value
+      setNewReleasesOffset((prevOffset) => prevOffset + 100);
     } catch (error) {
       console.log(error);
     }
   };
+  
 
   const handleScroll = () => {
     const windowHeight =

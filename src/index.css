@@ -129,13 +129,7 @@ a:hover:after {
   text-align: center;
 }
 
-.gameInfo {
-  display: flex;
-  flex-flow: row wrap;
-  max-width: 1200px;
-  justify-content: center;
-  margin: 0 auto;
-}
+
 
 .gameIntro{
   padding-bottom: 10px;
@@ -143,37 +137,22 @@ a:hover:after {
   font-size: 16px;
 }
 
-.gameInfo > div {
-  position: relative;
-  background-color: #222;
-  border-radius: 5px;
-  overflow: hidden;
-  margin-right: 20px;
-  margin-bottom: 20px;
-  height: 350px;
-  width: 250px;
-  display: flex;
-  flex-direction: column;
-}
+
 
 .gameInfo > div:last-child {
   margin-right: 0;
-}
-
-.gameInfo > div:hover {
+}.gameInfo > div:hover {
   transform: scale(1.05);
   transition: transform 0.3s ease-in-out;
   cursor: pointer;
 }
 
 .gameInfo img {
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
+
 .gameInfo p {
   margin: 0;
   padding: 10px;
@@ -184,7 +163,7 @@ a:hover:after {
   width: 100%;
   position: absolute;
   bottom: 0;
-  background-color: rgb(96, 150, 180, 0.8);
+  background-color: rgba(96, 150, 180, 0.8);
   z-index: 1;
 }
 .selectedGame {
@@ -209,10 +188,6 @@ a:hover:after {
 
 .selectedGameDetails {
   margin-top: 10px;
-}
-
-.gameInfo {
-  margin-top: 40px;
 }
 
 .buttons {
@@ -372,7 +347,7 @@ a:hover:after {
 
 .selectedGameName {
   text-align: center;
-  margin-bottom: 10px; /* Add margin bottom to create space below the title */
+  margin-bottom: 10px;
 }
 .selectedGameDescription{
   padding-top: 20px;
@@ -446,4 +421,140 @@ a:hover:after {
 }
 .footerCredit a{
   cursor: pointer;
+}
+
+.imageContainer {
+  position: relative;
+  display: flex;
+  z-index: 1;
+  width: 100%; /* Ensure the container takes up the full width */
+  height: 100%; /* Ensure the container takes up the full height */
+}
+
+.imageContainer img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.gameName {
+  position: relative;
+  z-index: 2;
+}
+
+.wishlistButton {
+  position: absolute;
+  z-index: 3;
+  max-width: 30px;
+  max-height: 30px;
+  margin: 5px;
+  background-color: #eee9da;
+  padding: 2px;
+  border-radius: 5px;
+}
+
+.gameInfo {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.new-releases-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 1200px;
+  margin: 0 auto;
+  cursor: pointer;
+}
+.new-releases-container> :hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease-in-out;
+  display: flex; 
+}
+
+.new-releases-container > .game-card {
+  flex-basis: calc(25% - 20px); /* Adjust the flex-basis value to control the width of each item */
+  max-width: calc(25% - 20px); /* Adjust the max-width value to control the width of each item */
+  margin-bottom: 20px;}
+  .new-releases-container > .selectedGame{
+    transition: none;
+  }
+
+.gameInfo > div {
+  position: relative;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  height: 350px;
+  width: 250px;
+  display: flex;
+  flex-flow: row wrap;
+}
+.game-card {
+  position: relative;
+  background-color: #222;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  height: 350px;
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+}
+.game-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  pointer-events: none;
+}
+.game-card p{
+  margin: 0;
+  padding: 10px;
+  font-size: 17px;
+  font-weight: bold;
+  text-align: center;
+  color: rgb(238, 233, 218);
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  background-color: rgba(96, 150, 180, 0.8);
+  z-index: 1;
+}
+.game-card > div:last-child {
+  margin-right: 0;
+}
+
+.game-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.game-card p {
+  margin: 0;
+  padding: 10px;
+  font-size: 17px;
+  font-weight: bold;
+  text-align: center;
+  color: rgb(238, 233, 218);
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  background-color: rgba(96, 150, 180, 0.8);
+  z-index: 1;
+}
+.new-releases-container .selectedGame {
+  transform: none;
+  transition: none;
+  transform: translate(-50%, -50%);
 }
