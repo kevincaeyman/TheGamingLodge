@@ -1,8 +1,9 @@
 import React, { useState, useContext, useEffect } from "react";
 import { ApiContext } from "../context/ApiContext";
 import closingIcon from "../assets/closingIcon.png";
+import wishlist from "../assets/wishlist.png";
 
-const FilterByPlatformsView = ({ selectedPlatform, setCurrentView }) => {
+const FilterByPlatformsView = ({ selectedPlatform, setCurrentView, addToWishlist }) => {
   const { gameData } = useContext(ApiContext);
   const [loading, setLoading] = useState(true);
   const [filteredGames, setFilteredGames] = useState([]);
@@ -43,6 +44,12 @@ const FilterByPlatformsView = ({ selectedPlatform, setCurrentView }) => {
       <div className="selectedGame">
         <div className="selectedGameHeader">
           <p className="selectedGameName">
+          <img
+          src={wishlist}
+          alt="wishlist icon"
+          className="platform-wishlistButton"
+          onClick={() => addToWishlist(game)}
+        />
             <b>{game.name && game.name}</b>
           </p>
           <img
@@ -97,7 +104,7 @@ const FilterByPlatformsView = ({ selectedPlatform, setCurrentView }) => {
           ))}
         </>
       ) : (
-        <p>Loading...</p>
+        <p>No games found.</p>
       )}
     </div>
   );

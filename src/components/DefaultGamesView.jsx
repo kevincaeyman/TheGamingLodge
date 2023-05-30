@@ -1,8 +1,9 @@
 import React, { useState, useContext, useEffect } from "react";
 import { ApiContext } from "../context/ApiContext";
 import closingIcon from "../assets/closingIcon.png";
+import wishlistIcon from "../assets/wishlist.png";
 
-const DefaultGamesView = () => {
+const DefaultGamesView = ({addToWishlist}) => {
   const { gameData } = useContext(ApiContext);
   const [filteredGames, setFilteredGames] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -14,6 +15,7 @@ const DefaultGamesView = () => {
       setLoading(false);
     }
   }, [gameData]);
+
   const selectGame = (game) => {
     setSelectedGame(game);
   };
@@ -22,6 +24,7 @@ const DefaultGamesView = () => {
     setSelectedGame(null);
   };
 
+  
   const SelectedGame = ({ game }) => {
     const platforms =
       game.platforms &&
@@ -38,6 +41,14 @@ const DefaultGamesView = () => {
             className="closingIcon"
             onClick={unselectGame}
             alt="Closing Icon"
+          />
+        </div>
+        <div className="selectedGameImages">
+          <img
+            src={wishlistIcon}
+            alt="wishlist icon"
+            className="wishlistButton"
+            onClick={() => addToWishlist(game)}
           />
         </div>
         <img
@@ -65,7 +76,7 @@ const DefaultGamesView = () => {
       </div>
     );
   };
-
+console.log(gameData)
   return (
     <div className="new-releases-container">
       {loading ? (

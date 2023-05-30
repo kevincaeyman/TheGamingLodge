@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import GamingLodge from "../assets/GamingLodge.svg";
-import AuthDetails from "./AuthDetails";
 import { auth } from "../firebase";
 
 const Navbar = () => {
@@ -26,7 +25,7 @@ const Navbar = () => {
     auth
       .signOut()
       .then(() => {
-        // Logout successful, do something if needed
+        navigate("/");
       })
       .catch((error) => {
         // Handle logout error
@@ -48,7 +47,7 @@ const Navbar = () => {
           <a onClick={() => navigate("/games")}>Games</a>
         </p>
         <p>
-          <a onClick={() => navigate("/shelves")}>My Shelves</a>
+          <a onClick={() => navigate("/wishlist")}>Wishlist</a>
         </p>
         <p>
           <a onClick={() => navigate("/about")}>About us</a>
@@ -60,7 +59,10 @@ const Navbar = () => {
 
       <div className="navbarButtons">
         {authUser ? (
-          <AuthDetails authUser={authUser} handleLogout={handleLogout} />
+          <div className="signed-in">
+            <p>{`Signed in as ${authUser.email}`}</p>
+            <button onClick={handleLogout} className="sign-out">Sign out</button>
+          </div>
         ) : (
           <>
             <button onClick={() => navigate("/signup")}>Sign up</button>

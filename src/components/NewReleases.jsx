@@ -1,9 +1,9 @@
 import React, { useContext, useState, useEffect } from "react";
 import { ApiContext } from "../context/ApiContext";
 import closingIcon from "../assets/closingIcon.png";
+import wishlist from "../assets/wishlist.png";
 
-
-const NewReleases = () => {
+const NewReleases = ({ addToWishlist }) => {
   const { newReleases, retrieveNewReleases } = useContext(ApiContext);
   const [loading, setLoading] = useState(true);
   const [selectedGame, setSelectedGame] = useState(null);
@@ -44,6 +44,12 @@ const NewReleases = () => {
           />
         </div>
         <img
+          src={wishlist}
+          alt="wishlist icon"
+          className="new-wishlistButton"
+          onClick={() => addToWishlist(game)}
+        />
+        <img
           src={game.image && game.image.super_url}
           alt="Selected Game Image"
           className="selectedGameImage"
@@ -52,10 +58,7 @@ const NewReleases = () => {
           <div className="selectedGameDescription">
             <p>
               <b>Release Date:</b> <br />
-              {game.original_release_date === null
-                ? "TBA"
-                : game.original_release_date}{" "}
-              <br />
+              {game.original_release_date === null ? "TBA" : game.original_release_date} <br />
             </p>
             <p>
               <b>Description:</b>

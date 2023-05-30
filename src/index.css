@@ -8,7 +8,6 @@ body {
   padding: 0;
 }
 
-
 /* Navbar */
 .navbar {
   display: flex;
@@ -73,6 +72,11 @@ a:hover:after {
   display: flex;
   margin-right: 30px;
 }
+.navbar .signed-in {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: baseline;
+}
 
 .navbarButtons button {
   margin-right: 20px;
@@ -93,7 +97,7 @@ a:hover:after {
   text-align: start;
   padding-top: 70px;
   padding-left: 20px;
-  background-image: url('./assets/Background.svg');
+  background-image: url("./assets/Background.svg");
   background-size: cover;
   background-position: center -120px;
   background-repeat: no-repeat;
@@ -112,7 +116,6 @@ a:hover:after {
   border-radius: 10px;
 }
 
-
 .gamesContent {
   color: #eee9da;
   padding-top: 10px;
@@ -129,19 +132,16 @@ a:hover:after {
   text-align: center;
 }
 
-
-
-.gameIntro{
+.gameIntro {
   padding-bottom: 10px;
   margin-top: -10px;
   font-size: 16px;
 }
 
-
-
 .gameInfo > div:last-child {
   margin-right: 0;
-}.gameInfo > div:hover {
+}
+.gameInfo > div:hover {
   transform: scale(1.05);
   transition: transform 0.3s ease-in-out;
   cursor: pointer;
@@ -181,8 +181,8 @@ a:hover:after {
   border-radius: 10px;
 }
 
-
 .selectedGameImage {
+  position: relative;
   width: 100%;
 }
 
@@ -203,7 +203,7 @@ a:hover:after {
   color: #6096b4;
   cursor: pointer;
 }
-.shelvesContent{
+.wishlistContent {
   display: flex;
   flex-flow: column;
   align-items: center;
@@ -211,14 +211,14 @@ a:hover:after {
   color: #eee9da;
   padding-top: 10px;
 }
-.slider{
+.slider {
   padding-top: 20px;
   max-width: 70%;
 }
-.sliderImage{
+.sliderImage {
   max-width: 100%;
 }
-.aboutContent{
+.aboutContent {
   position: relative;
   display: flex;
   flex-flow: column;
@@ -226,13 +226,13 @@ a:hover:after {
   text-align: start;
   padding-top: 70px;
   padding-left: 20px;
-  background-image: url('./assets/Background.svg');
+  background-image: url("./assets/Background.svg");
   background-size: cover;
   background-position: center -120px;
   background-repeat: no-repeat;
   height: 75vh;
 }
-.aboutContent .text{
+.aboutContent .text {
   position: absolute;
   top: 50%;
   left: 24%;
@@ -243,7 +243,7 @@ a:hover:after {
   padding: 30px;
   border-radius: 10px;
 }
-.contactContent{
+.contactContent {
   position: relative;
   display: flex;
   flex-flow: column;
@@ -251,13 +251,13 @@ a:hover:after {
   text-align: start;
   padding-top: 70px;
   padding-left: 20px;
-  background-image: url('./assets/Background.svg');
+  background-image: url("./assets/Background.svg");
   background-size: cover;
   background-position: center -120px;
   background-repeat: no-repeat;
   height: 75vh; /* Adjust the height as needed */
 }
-.contactContent .text{
+.contactContent .text {
   position: absolute;
   top: 50%;
   left: 24%;
@@ -287,7 +287,7 @@ a:hover:after {
 .loginBox small {
   margin-top: 20px;
 }
-.input{
+.input {
   border: none;
   margin-top: 10px;
   padding-top: 10px;
@@ -297,11 +297,11 @@ a:hover:after {
   border: 0.5px solid;
   border-color: #6096b4;
 }
-::placeholder{
+::placeholder {
   color: #6096b4;
   padding-left: 10px;
 }
-.loginButton{
+.loginButton {
   color: #eee9da;
   background-color: #6096b4;
   border-radius: 15px;
@@ -312,11 +312,11 @@ a:hover:after {
   margin-top: 20px;
   border: none;
 }
-.loginLink{
+.loginLink {
   cursor: pointer;
   text-decoration: underline;
 }
-.searchBar{
+.searchBar {
   background-color: #eee9da;
   border: none;
   padding-top: 10px;
@@ -332,7 +332,9 @@ a:hover:after {
   flex-direction: column;
   align-items: center;
   max-width: 100%;
-  max-height: calc(100vh - 70px); /* Adjust the value as needed to leave space between container and page limits */
+  max-height: calc(
+    100vh - 70px
+  ); /* Adjust the value as needed to leave space between container and page limits */
   overflow-y: auto; /* Enable vertical scroll if content exceeds the container height */
   box-shadow: 0 0px 8px 3px rgba(0, 0, 0, 0.4);
 }
@@ -349,7 +351,7 @@ a:hover:after {
   text-align: center;
   margin-bottom: 10px;
 }
-.selectedGameDescription{
+.selectedGameDescription {
   padding-top: 20px;
 }
 
@@ -365,11 +367,11 @@ a:hover:after {
 .selectedGameDetails {
   margin-top: -40px; /* Adjust the value as needed to create space between header and content */
 }
-.selectedGameImage{
+.selectedGameImage {
   padding-bottom: 20px;
 }
 
-.loadMoreButton{
+.loadMoreButton {
   margin-right: 20px;
   margin-bottom: 20px;
   padding-top: 10px;
@@ -404,7 +406,7 @@ a:hover:after {
   max-height: 30px;
   cursor: pointer;
 }
-.footerCredit{
+.footerCredit {
   display: flex;
   align-self: center;
   padding-right: 10px;
@@ -415,7 +417,7 @@ a:hover:after {
   font-weight: 300;
   font-size: large;
 }
-.footerCredit a{
+.footerCredit a {
   cursor: pointer;
 }
 
@@ -443,10 +445,48 @@ a:hover:after {
   z-index: 3;
   max-width: 30px;
   max-height: 30px;
-  margin: 5px;
+  margin-top: 5px;
+  margin-left: -143px;
   background-color: #eee9da;
   padding: 2px;
   border-radius: 5px;
+}
+.new-wishlistButton {
+  position: absolute;
+  z-index: 3;
+  max-width: 30px;
+  max-height: 30px;
+  margin-top: 50px;
+  margin-left: -255px;
+  background-color: #eee9da;
+  padding: 2px;
+  border-radius: 5px;
+}
+.title-wishlistButton {
+  position: absolute;
+  z-index: 3;
+  max-width: 30px;
+  max-height: 30px;
+  margin-top: 70px;
+  margin-left: -253px;
+  background-color: #eee9da;
+  padding: 2px;
+  border-radius: 5px;
+}
+.platform-wishlistButton {
+  position: absolute;
+  z-index: 3;
+  max-width: 30px;
+  max-height: 30px;
+  margin-top: 35px;
+  margin-left:-108px;
+  background-color: #eee9da;
+  padding: 2px;
+  border-radius: 5px;
+}
+.selectedGameImages {
+  display: flex;
+  position: relative;
 }
 
 .gameInfo {
@@ -464,19 +504,24 @@ a:hover:after {
   margin: 0 auto;
   cursor: pointer;
 }
-.new-releases-container> :hover {
+.new-releases-container > :hover {
   transform: scale(1.05);
   transition: transform 0.3s ease-in-out;
-  display: flex; 
+  display: flex;
 }
 
 .new-releases-container > .game-card {
-  flex-basis: calc(25% - 20px); /* Adjust the flex-basis value to control the width of each item */
-  max-width: calc(25% - 20px); /* Adjust the max-width value to control the width of each item */
-  margin-bottom: 20px;}
-  .new-releases-container > .selectedGame{
-    transition: none;
-  }
+  flex-basis: calc(
+    25% - 20px
+  ); /* Adjust the flex-basis value to control the width of each item */
+  max-width: calc(
+    25% - 20px
+  ); /* Adjust the max-width value to control the width of each item */
+  margin-bottom: 20px;
+}
+.new-releases-container > .selectedGame {
+  transition: none;
+}
 
 .gameInfo > div {
   position: relative;
@@ -513,7 +558,7 @@ a:hover:after {
   transition: opacity 0.3s ease-in-out;
   pointer-events: none;
 }
-.game-card p{
+.game-card p {
   margin: 0;
   padding: 10px;
   font-size: 17px;
@@ -553,4 +598,66 @@ a:hover:after {
   transform: none;
   transition: none;
   transform: translate(-50%, -50%);
+}
+.welcome-message {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #eee9da;
+  height: 50vh;
+  margin: auto;
+  margin-top: 40px;
+}
+.wishlist-game-card {
+  position: relative;
+  background-color: #222;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  height: 350px;
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+}
+.wishlist-game-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.wishlist-game-card p {
+  margin: 0;
+  padding: 10px;
+  font-size: 17px;
+  font-weight: bold;
+  text-align: center;
+  color: rgb(238, 233, 218);
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  background-color: rgba(96, 150, 180, 0.8);
+  z-index: 1;
+}
+.wishlist-game-card button {
+  z-index: 3;
+  color: #eee9da;
+  background-color: #6096b4;
+  border: none;
+  border-radius: 20px;
+  justify-self: start;
+  position: absolute;
+  width: 30%;
+  padding: 5px;
+  margin: 5px;
+  cursor: pointer;
+}
+.wishlistContent {
+  color: #eee9da;
+  padding-top: 10px;
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+  justify-content: center;
+  position: relative;
 }

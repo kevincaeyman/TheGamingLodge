@@ -1,5 +1,8 @@
+// GamesContent.js
+
 import React, { useState, useEffect, useContext } from "react";
 import { ApiContext } from "../context/ApiContext";
+import { auth, firestore } from "../firebase";
 import {
   PLAYSTATION_5_PLATFORM,
   PLAYSTATION_4_PLATFORM,
@@ -136,6 +139,31 @@ const GamesContent = () => {
     }
   }, [offsetNewReleases]);
 
+  const addToWishlist = (game) => {
+    const wishlist = localStorage.getItem("wishlist");
+    let wishlistItems = wishlist ? JSON.parse(wishlist) : [];
+  
+    // Check if the game is already in the wishlist
+    const gameExists = wishlistItems.some((item) => item.gameId === game.id);
+    if (gameExists) {
+      console.log("Game is already in the wishlist");
+      return;
+    }
+  
+    const imageUrl = game.image && game.image.super_url;
+    const gameDetails = {
+      gameId: game.id,
+      name: game.name,
+      image: imageUrl
+    };
+  
+    wishlistItems.push(gameDetails);
+  
+    localStorage.setItem("wishlist", JSON.stringify(wishlistItems));
+    console.log("Game added to wishlist");
+  };
+  
+
   return (
     <div className="gamesContent">
       <h1>Games</h1>
@@ -174,26 +202,52 @@ const GamesContent = () => {
 
       {selectedGame && <SelectedGame game={selectedGame} />}
 
-      <div>
-        {loading ? (
-          <p>Loading...</p>
-        ) : (
-          <>
-            {currentView === "new" && <NewReleases />}
-            {currentView === "default" && <DefaultGamesView />}
-            {currentView === "filteredByPlatform" && (
-              <FilterByPlatformsView selectedPlatform={selectedPlatform} setCurrentView={setCurrentView} />
-            )}
-            {currentView === "filteredByTitle" && (
-              <FilterByTitleView
-                setFilteredGames={setFilteredGames}
-                unselectGame={unselectGame}
-                filteredGames={filteredGames}
-              />
-            )}
-          </>
-        )}
-      </div>
+      {loading ? (
+        <p>Loading games...</p>
+      ) : (
+        <>
+          {currentView === "new" && (
+            <NewReleases
+              games={filteredGames}
+              selectGame={selectGame}
+              addToWishlist={addToWishlist}
+              offset={offsetNewReleases}
+              setOffset={setOffsetNewReleases}
+            />
+          )}
+          {currentView === "filteredByPlatform" && (
+            <FilterByPlatformsView
+              games={filteredGames}
+              selectGame={selectGame}
+              addToWishlist={addToWishlist}
+              selectedPlatform={selectedPlatform}
+              offset={offsetAllGames}
+              setOffset={setOffsetAllGames}
+            />
+          )}
+          {currentView === "filteredByTitle" && (
+            <FilterByTitleView
+              games={filteredGames}
+              selectGame={selectGame}
+              addToWishlist={addToWishlist}
+              searchQuery={searchQuery}
+              offset={offsetAllGames}
+              setOffset={setOffsetAllGames}
+              setFilteredGames={setFilteredGames} 
+              filteredGames={filteredGames}
+            />
+          )}
+          {currentView === "default" && (
+            <DefaultGamesView
+              games={filteredGames}
+              selectGame={selectGame}
+              addToWishlist={addToWishlist}
+              offset={offsetAllGames}
+              setOffset={setOffsetAllGames}
+            />
+          )}
+        </>
+      )}
     </div>
   );
 };

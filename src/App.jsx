@@ -5,14 +5,14 @@ import AuthDetails from "./components/AuthDetails";
 import Home from "./pages/Home";
 import Games from "./pages/Games";
 import Community from "./pages/Community";
-import Shelves from "./pages/Shelves";
+import Wishlist from "./pages/Wishlist";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
 import Footer from "./components/Footer";
 import { signOut } from "firebase/auth";
-import { auth } from "./firebase";
+import { auth, firestore } from "./firebase";
 import { ApiProvider } from "./context/ApiContext";
 
 function App() {
@@ -34,7 +34,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/games" element={<Games />} />
         <Route path="/community" element={<Community />} />
-        <Route path="/shelves" element={<Shelves />} />
+        <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/signup" element={<SignUp />} />
