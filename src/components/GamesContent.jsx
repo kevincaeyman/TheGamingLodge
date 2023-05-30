@@ -14,9 +14,10 @@ import closingIcon from "../assets/closingIcon.png";
 import NewReleases from "./NewReleases";
 import DefaultGamesView from "./DefaultGamesView";
 import FilterByPlatformsView from "./FilterByPlatformsView";
+import FilterByTitleView from "./FilterByTitleView";
 
 const GamesContent = () => {
-  const { gameData, retrieveNewReleases, newReleases, retrieveAllGames } =
+  const { gameData, retrieveNewReleases, retrieveAllGames } =
     useContext(ApiContext);
   const [currentView, setCurrentView] = useState("default");
   const [filteredGames, setFilteredGames] = useState([]);
@@ -31,7 +32,6 @@ const GamesContent = () => {
     if (gameData && gameData.results) {
       filterGames();
       setLoading(false);
-      //console.log(gameData.results);
     }
   }, [gameData, currentView]);
 
@@ -51,7 +51,7 @@ const GamesContent = () => {
   const filterGames = () => {
     if (currentView === "new") {
       filterNewReleases();
-    } else {
+    } else if (currentView === "filteredByTitle") {
       setFilteredGames([]);
     }
   };
@@ -69,6 +69,7 @@ const GamesContent = () => {
   const handleSearchQueryChange = (e) => {
     const query = e.target.value;
     setSearchQuery(query);
+    setCurrentView("filteredByTitle");
   };
 
   const SelectedGame = ({ game }) => {
@@ -171,10 +172,8 @@ const GamesContent = () => {
         </select>
       </div>
 
-      {/* Display selected game details */}
       {selectedGame && <SelectedGame game={selectedGame} />}
 
-      {/* Display game information */}
       <div>
         {loading ? (
           <p>Loading...</p>
@@ -183,7 +182,14 @@ const GamesContent = () => {
             {currentView === "new" && <NewReleases />}
             {currentView === "default" && <DefaultGamesView />}
             {currentView === "filteredByPlatform" && (
-               <FilterByPlatformsView selectedPlatform={selectedPlatform} setSelectedPlatform={setSelectedPlatform} setCurrentView={setCurrentView} />
+              <FilterByPlatformsView selectedPlatform={selectedPlatform} setCurrentView={setCurrentView} />
+            )}
+            {currentView === "filteredByTitle" && (
+              <FilterByTitleView
+                setFilteredGames={setFilteredGames}
+                unselectGame={unselectGame}
+                filteredGames={filteredGames}
+              />
             )}
           </>
         )}

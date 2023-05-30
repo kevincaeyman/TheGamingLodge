@@ -97,7 +97,7 @@ const FilterByPlatformsView = ({ selectedPlatform, setCurrentView }) => {
           ))}
         </>
       ) : (
-        <p>No games found.</p>
+        <p>Loading...</p>
       )}
     </div>
   );

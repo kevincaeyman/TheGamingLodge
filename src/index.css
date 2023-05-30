@@ -383,24 +383,20 @@ a:hover:after {
   cursor: pointer;
 }
 .footer {
-  display: flex;
-  position: absolute;
+  position: fixed;
   bottom: 0;
   left: 0;
-  right: 0;
+  width: 100%;
   background-color: #eee9da;
+  display: flex;
   justify-content: space-between;
-  position: sticky;
-  bottom: 0;
   z-index: 9999;
+  box-shadow: 0 -10px 11px -10px rgba(0, 0, 0, 0.4);
 }
 .footerImages {
   display: flex;
-  flex-flow: row;
-  align-items: baseline;
-  justify-content: center;
+  align-items: center;
 }
-
 .footerImages img {
   display: flex;
   align-self: baseline;

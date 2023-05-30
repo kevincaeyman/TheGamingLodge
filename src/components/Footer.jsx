@@ -6,7 +6,7 @@ import FIRMAVAYALAR from "../assets/FIRMAVAYALAR.png";
 
 const Footer = () => {
   return (
-    <div className="footer">
+    <footer className="footer">
       <div className="footerImages">
         <img src={facebook} alt="Facebook" />
         <img src={instagram} alt="Instagram" />
@@ -18,7 +18,7 @@ const Footer = () => {
           <img src={FIRMAVAYALAR} alt="FIRMAVAYALAR" />
         </a>
       </div>
-    </div>
+    </footer>
   );
 };
 
